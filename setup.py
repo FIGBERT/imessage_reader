@@ -8,7 +8,7 @@ with io.open("README.md", "rt", encoding="utf8") as f:
     LONG_DESC = f.read()
 
 
-setup(
+_ = setup(
     name="imessage_reader",
     version=common.VERSION,
     license="MIT",

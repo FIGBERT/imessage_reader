@@ -17,6 +17,7 @@ def message_data_one_row():
         "SMS",
         "+01 555 17172",
         1,
+        1,
     )
 
 
@@ -26,7 +27,7 @@ def initialize_db(tmpdir):
     conn = sqlite3.connect(file)
     cur = conn.cursor()
 
-    cur.executescript(
+    _ = cur.executescript(
         """
     DROP TABLE IF EXISTS message;
 
@@ -37,28 +38,31 @@ def initialize_db(tmpdir):
     service                 TEXT UNIQUE,
     account                 TEXT UNIQUE,
     is_from_me              INTEGER,
+    is_read                 INTEGER,
     attributedBody          BLOB,
     cache_has_attachments   INTEGER
     );
     """
     )
 
-    cur.execute(
+    _ = cur.execute(
         """INSERT OR IGNORE INTO message(user_id,
                                         text,
                                         date,
                                         service,
                                         account,
                                         is_from_me,
+                                        is_read,
                                         attributedBody,
                                         cache_has_attachments)
-        VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)""",
+        VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
             "max@mustermann.de",
             "Hello Kendra!",
             "2020-10-27 17:19:20",
             "iMessage",
             "+01 555 17172",
+            1,
             1,
             b"100000000",
             0,
@@ -76,7 +80,7 @@ def test_message_data(message_data_one_row):
 
 
 def test_db_data(initialize_db):
-    sql_command = "SELECT user_id, text, date, service, account, is_from_me, attributedBody, cache_has_attachments from message"
+    sql_command = "SELECT user_id, text, date, service, account, is_from_me, is_read, attributedBody, cache_has_attachments from message"
     rval = common.fetch_db_data(initialize_db, sql_command)
     assert isinstance(rval, list)
     assert isinstance(rval[0][0], str)
@@ -85,5 +89,6 @@ def test_db_data(initialize_db):
     assert isinstance(rval[0][3], str)
     assert isinstance(rval[0][4], str)
     assert isinstance(rval[0][5], int)
-    assert isinstance(rval[0][6], bytes)
-    assert isinstance(rval[0][7], int)
+    assert isinstance(rval[0][6], int)
+    assert isinstance(rval[0][7], bytes)
+    assert isinstance(rval[0][8], int)

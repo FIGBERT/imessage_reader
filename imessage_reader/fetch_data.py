@@ -12,9 +12,7 @@ Date modified: June 27th, 2023
 import sys
 import logging
 
-from os.path import expanduser
-
-from imessage_reader import common, create_sqlite, write_excel, data_container
+from imessage_reader import common, data_container
 
 
 # logging.basicConfig(level=logging.DEBUG)
@@ -58,7 +56,6 @@ class FetchData:
             self.operating_system = common.get_platform()
 
     def _check_system(self):
-        # TODO: Change this later
         if self.operating_system == "WINDOWS":
             sys.exit("Your operating system is not supported yet!")
 
@@ -68,7 +65,7 @@ class FetchData:
         :return: list containing the user id, messages, the service and the account
         """
 
-        rval: list = common.fetch_db_data(self.db_path, self.SQL_CMD)
+        rval = common.fetch_db_data(self.db_path, self.SQL_CMD)
 
         data = []
         for row in rval:
@@ -106,73 +103,6 @@ class FetchData:
 
         return data
 
-    def show_user_txt(self, export: str):
-        """Invoke _read_database(), print fetched data and export data.
-        (This method is for CLI usage.)
-
-        :param export: Determine whether to export data
-        """
-
-        # Check the running operating system
-        self._check_system()
-
-        # Read chat.db
-        fetched_data = self._read_database()
-
-        # CLI output
-        if export == "nothing":
-            for data in fetched_data:
-                print(data)
-
-        # Excel export
-        if export == "excel":
-            self._export_excel(fetched_data)
-
-        # SQLite3 export
-        if export == "sqlite":
-            self._export_sqlite(fetched_data)
-
-        # Show all recipients
-        if export == "recipients":
-            self._get_recipients()
-
-    def _export_excel(self, data: list):
-        """Export data (write Excel file)
-
-        :param data: message objects containing user id, message, date, service, account
-        """
-        file_path = expanduser("~") + "/Documents/"
-        # TODO: Exception handling
-        ew = write_excel.ExelWriter(data, file_path)
-        ew.write_data()
-
-    def _export_sqlite(self, data: list):
-        """Export data (create SQLite3 database).
-
-        :param data: message objects containing user id, message, date, service, account
-        """
-        file_path = expanduser("~") + "/Documents/"
-        # TODO: Exception handling
-        cd = create_sqlite.CreateDatabase(data, file_path)
-        cd.create_sqlite_db()
-
-    def _get_recipients(self):
-        """Create a list containing all recipients and
-        show the recipients in the command line.
-        """
-        fetched_data = self._read_database()
-
-        # Create a list with recipients
-        recipients = [i.user_id for i in fetched_data if i.is_from_me == 0]
-
-        print()
-        print("List of Recipients")
-        print("------------------------")
-        print()
-
-        for recipient in recipients:
-            print(recipient)
-
     def get_messages(self) -> list:
         """Create a list with tuples (user id, message, date, service, account, is_from_me)
         (This method is for module usage.)
@@ -198,7 +128,6 @@ class FetchData:
             is_from_me.append(data.is_from_me)
             is_read.append(data.is_read)
 
-        data = list(zip(users, messages, dates, service, account,
-                        is_from_me, is_read))
+        data = list(zip(users, messages, dates, service, account, is_from_me, is_read))
 
         return data

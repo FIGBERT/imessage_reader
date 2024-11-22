@@ -1,13 +1,22 @@
 .DS_Store
-/.vscode
 /imessage_reader/__pycache__
 imessage_reader.egg-info/
-/.idea
 identifier.sqlite
-dist/
-build/
-.venv/
 .coverage
 
 *.pyc
 /htmlcov
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Secrets
+.env

@@ -70,13 +70,13 @@ class FetchData:
         data = []
         for row in rval:
             text = row[0]
-            if row[7] == 1:
+            if row[8] == 1:
                 text = "<Message with no text, but an attachment.>"
             # the chat.db has some weird behavior where sometimes the text value is None
             # and the text string is buried in a binary blob under the attributedBody field.
-            if text is None and row[6] is not None:
+            if text is None and row[7] is not None:
                 try:
-                    text = row[6].split(b"NSString")[1]
+                    text = row[7].split(b"NSString")[1]
                     text = text[
                         5:
                     ]  # stripping some preamble which generally looks like this: b'\x01\x94\x84\x01+'
@@ -98,7 +98,9 @@ class FetchData:
                     sys.exit("ERROR: Can't read a message.")
 
             data.append(
-                data_container.MessageData(row[2], text, row[1], row[3], row[4], row[5])
+                data_container.MessageData(
+                    row[2], text, row[1], row[3], row[4], row[5], row[6]
+                )
             )
 
         return data

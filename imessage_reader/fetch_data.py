@@ -40,6 +40,7 @@ class FetchData:
         "handle.service, "
         "message.destination_caller_id, "
         "message.is_from_me, "
+        "message.is_read, "
         "message.attributedBody, "
         "message.cache_has_attachments "
         "FROM message "
@@ -186,6 +187,7 @@ class FetchData:
         service = []
         account = []
         is_from_me = []
+        is_read = []
 
         for data in fetched_data:
             users.append(data.user_id)
@@ -194,7 +196,9 @@ class FetchData:
             service.append(data.service)
             account.append(data.account)
             is_from_me.append(data.is_from_me)
+            is_read.append(data.is_read)
 
-        data = list(zip(users, messages, dates, service, account, is_from_me))
+        data = list(zip(users, messages, dates, service, account,
+                        is_from_me, is_read))
 
         return data

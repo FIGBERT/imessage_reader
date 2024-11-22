@@ -38,7 +38,7 @@ class FetchData:
         "handle.service, "
         "message.destination_caller_id, "
         "message.is_from_me, "
-        "message.date_read, "
+        "datetime((message.date_read / 1000000000) + 978307200, 'unixepoch', 'localtime'),"
         "message.attributedBody, "
         "message.cache_has_attachments "
         "FROM message "

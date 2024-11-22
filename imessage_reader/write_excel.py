@@ -12,12 +12,16 @@ from datetime import datetime
 import openpyxl
 from openpyxl.styles import Font
 
+from imessage_reader.data_container import MessageData
+
 
 class ExelWriter:
-    """This class manages the export to excel.
-    """
+    """This class manages the export to excel."""
 
-    def __init__(self, imessage_data: list, file_path: str):
+    imessage_data: list[MessageData]
+    file_path: str
+
+    def __init__(self, imessage_data: list[MessageData], file_path: str):
         """Constructor method
 
         :param imessage_data: list with MessageData objects
@@ -116,7 +120,8 @@ class ExelWriter:
         # Save the workbook (Excel file)
         try:
             workbook.save(
-                self.file_path + f'iMessage-Data_{datetime.now().strftime("%Y-%m-%d")}.xlsx'
+                self.file_path
+                + f'iMessage-Data_{datetime.now().strftime("%Y-%m-%d")}.xlsx'
             )
             print()
             print(">>> Excel file successfully created! <<<")

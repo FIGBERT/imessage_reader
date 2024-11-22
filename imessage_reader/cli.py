@@ -33,43 +33,37 @@ def get_parser() -> argparse.ArgumentParser:
         description="A tool to fetch messages from the chat.db file."
     )
 
-    parser.add_argument(
+    _ = parser.add_argument(
         "-p",
         "--path",
         type=str,
         nargs="?",
         const=MACOS_DB_PATH,
         default=MACOS_DB_PATH,
-        help="Path to the database file"
+        help="Path to the database file",
     )
 
-    parser.add_argument(
+    _ = parser.add_argument(
         "-o",
         "--output",
         nargs="?",
         default="nothing",
-        help="Specify the output: e => Excel, s => SQLite"
+        help="Specify the output: e => Excel, s => SQLite",
     )
 
-    parser.add_argument(
-        "-r",
-        "--recipients",
-        help="Show the recipients",
-        action="store_true"
+    _ = parser.add_argument(
+        "-r", "--recipients", help="Show the recipients", action="store_true"
     )
 
-    parser.add_argument(
-        "-v",
-        "--version",
-        help="Show the current version.",
-        action="store_true"
+    _ = parser.add_argument(
+        "-v", "--version", help="Show the current version.", action="store_true"
     )
 
     return parser
 
 
-def check_database_path(args):
-    """ Parse arguments from sys.argv and invoke the evaluate method.
+def check_database_path(args: argparse.Namespace):
+    """Parse arguments from sys.argv and invoke the evaluate method.
 
     :param args: the user's input
     """
@@ -109,8 +103,7 @@ def evaluate(path: str, output: str, recipients: bool, version: bool):
 
 
 def main():
-    """Entrypoint to the command-line interface (CLI).
-    """
+    """Entrypoint to the command-line interface (CLI)."""
     parser = get_parser()
     args = parser.parse_args()
     check_database_path(args)

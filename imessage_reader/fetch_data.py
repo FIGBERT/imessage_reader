@@ -28,8 +28,11 @@ class FetchData:
     print and export the messages.
     """
 
+    db_path: str
+    operating_system: str
+
     # The SQL command
-    SQL_CMD = (
+    SQL_CMD: str = (
         "SELECT "
         "text, "
         "datetime((date / 1000000000) + 978307200, 'unixepoch', 'localtime'),"
@@ -43,7 +46,7 @@ class FetchData:
         "JOIN handle on message.handle_id=handle.ROWID"
     )
 
-    def __init__(self, db_path: str, system=None):
+    def __init__(self, db_path: str, system: str | None = None):
         """Constructor method
 
         :param db_path: Path to the chat.db file
@@ -64,7 +67,7 @@ class FetchData:
         :return: list containing the user id, messages, the service and the account
         """
 
-        rval = common.fetch_db_data(self.db_path, self.SQL_CMD)
+        rval: list = common.fetch_db_data(self.db_path, self.SQL_CMD)
 
         data = []
         for row in rval:
@@ -84,10 +87,10 @@ class FetchData:
                     # this is equivalent to text[0:1] == b'\x81'
                     if text[0] == 129:
                         length = int.from_bytes(text[1:3], "little")
-                        text = text[3: length + 3]
+                        text = text[3 : length + 3]
                     else:
                         length = text[0]
-                        text = text[1: length + 1]
+                        text = text[1 : length + 1]
                     text = text.decode()
 
                     logging.debug(text)

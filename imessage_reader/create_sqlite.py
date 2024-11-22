@@ -10,12 +10,16 @@ Date modified: August 28th, 2021
 
 import sqlite3
 
+from imessage_reader.data_container import MessageData
+
 
 class CreateDatabase:
-    """This class manages the export to SQLite.
-    """
+    """This class manages the export to SQLite."""
 
-    def __init__(self, imessage_data: list, file_path: str):
+    file_path: str
+    imessage_data: list[MessageData]
+
+    def __init__(self, imessage_data: list[MessageData], file_path: str):
         """Constructor method
 
         :param imessage_data: list with MessageData objects
@@ -34,20 +38,20 @@ class CreateDatabase:
         conn = sqlite3.connect(database)
         cur = conn.cursor()
 
-        cur.execute("DROP TABLE IF EXISTS Messages")
+        _ = cur.execute("DROP TABLE IF EXISTS Messages")
 
-        cur.execute(
+        _ = cur.execute(
             """
         CREATE TABLE IF NOT EXISTS Messages (user_id TEXT,
         message TEXT,
         date TEXT,
         service TEXT,
-        destination_caller_id TEXT, 
+        destination_caller_id TEXT,
         is_from_me TEXT)"""
         )
 
         for data in self.imessage_data:
-            cur.execute(
+            _ = cur.execute(
                 """INSERT INTO Messages (user_id, message, date, service, destination_caller_id, is_from_me)
                 VALUES(?, ?, ?, ?, ?, ?)""",
                 (

@@ -29,7 +29,6 @@ def message_data_one_row():
 
 
 def test_write_excel(create_directory):
-
     excel_file_path = create_directory + "/sub"
     ew = ExelWriter(message_data_one_row(), excel_file_path)
     ew.write_data()

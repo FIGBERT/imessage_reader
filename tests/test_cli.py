@@ -31,13 +31,7 @@ def test_evaluate(create_parser):
 def test_check_database_path(mocker):
     mocker.patch(
         "sys.argv",
-        [
-            "imessage_reader",
-            "--path",
-            "/Users/bodo/Documents",
-            "--output",
-            "e"
-        ],
+        ["imessage_reader", "--path", "/Users/bodo/Documents", "--output", "e"],
     )
 
     args = cli.get_parser().parse_args()

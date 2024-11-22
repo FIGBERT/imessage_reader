@@ -17,8 +17,7 @@ VERSION = "0.6.1"
 
 
 class Platform(Enum):
-    """An enum used to indicate the running operating system
-    """
+    """An enum used to indicate the running operating system"""
 
     OTHER = 0
     LINUX = 1
@@ -41,7 +40,7 @@ def get_platform() -> str:
     raise NotImplementedError(f"Platform {system} is not supported yet!")
 
 
-def fetch_db_data(db, command) -> list:
+def fetch_db_data(db: str, command: str) -> list:
     """Send queries to the sqlite database and return the results.
 
     :param db: the path to the database
@@ -51,7 +50,7 @@ def fetch_db_data(db, command) -> list:
     try:
         conn = sqlite3.connect(db)
         cur = conn.cursor()
-        cur.execute(command)
+        _ = cur.execute(command)
         return cur.fetchall()
     except Exception as e:
         sys.exit(f"Error reading the database: {e}\nDid you specify the correct path?")

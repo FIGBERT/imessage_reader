@@ -60,7 +60,7 @@ def initialize_db(tmpdir):
             "iMessage",
             "+01 555 17172",
             1,
-            b'100000000',
+            b"100000000",
             0,
         ),
     )
@@ -76,9 +76,7 @@ def test_message_data(message_data_one_row):
 
 
 def test_db_data(initialize_db):
-    sql_command = (
-        "SELECT user_id, text, date, service, account, is_from_me, attributedBody, cache_has_attachments from message"
-    )
+    sql_command = "SELECT user_id, text, date, service, account, is_from_me, attributedBody, cache_has_attachments from message"
     rval = common.fetch_db_data(initialize_db, sql_command)
     assert isinstance(rval, list)
     assert isinstance(rval[0][0], str)

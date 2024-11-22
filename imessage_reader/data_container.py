@@ -9,6 +9,7 @@ Date created: February 19th, 2022
 Date modified: -
 """
 
+from typing import override
 from dataclasses import dataclass
 
 
@@ -25,7 +26,8 @@ class MessageData:
     account: str
     is_from_me: int
 
-    def __str__(self):
+    @override
+    def __str__(self) -> str:
         """String representation
 
         :return: the representation of this object

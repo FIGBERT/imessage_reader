@@ -25,7 +25,7 @@ class MessageData:
     service: str
     account: str
     is_from_me: int
-    is_read: int
+    date_read: str
 
     @override
     def __str__(self) -> str:
@@ -39,7 +39,7 @@ class MessageData:
             f"service:\t\t{self.service}\n"
             f"caller id:\t\t{self.account}\n"
             f"is_from_me:\t\t{self.is_from_me}\n"
-            f"is_read:\t\t{self.is_read}\n"
+            f"date_read:\t\t{self.date_read}\n"
             f"\n"
             f"text:\n"
             f"=====\n"
